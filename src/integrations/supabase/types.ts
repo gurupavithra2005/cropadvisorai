@@ -14,16 +14,218 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      advisories: {
+        Row: {
+          created_at: string
+          id: string
+          input: Json | null
+          kind: string
+          output: Json | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          input?: Json | null
+          kind: string
+          output?: Json | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          input?: Json | null
+          kind?: string
+          output?: Json | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      market_watchlist: {
+        Row: {
+          commodity: string
+          created_at: string
+          id: string
+          market: string | null
+          user_id: string
+        }
+        Insert: {
+          commodity: string
+          created_at?: string
+          id?: string
+          market?: string | null
+          user_id: string
+        }
+        Update: {
+          commodity?: string
+          created_at?: string
+          id?: string
+          market?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      pest_scans: {
+        Row: {
+          created_at: string
+          crop: string | null
+          diagnosis: string | null
+          id: string
+          image_url: string | null
+          raw_response: Json | null
+          severity: string | null
+          treatment: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          crop?: string | null
+          diagnosis?: string | null
+          id?: string
+          image_url?: string | null
+          raw_response?: Json | null
+          severity?: string | null
+          treatment?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          crop?: string | null
+          diagnosis?: string | null
+          id?: string
+          image_url?: string | null
+          raw_response?: Json | null
+          severity?: string | null
+          treatment?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          district: string | null
+          full_name: string | null
+          id: string
+          irrigation: Database["public"]["Enums"]["irrigation_type"] | null
+          land_size_acres: number | null
+          land_type: Database["public"]["Enums"]["land_type"] | null
+          language: string
+          latitude: number | null
+          longitude: number | null
+          phone: string | null
+          state: string | null
+          updated_at: string
+          village: string | null
+        }
+        Insert: {
+          created_at?: string
+          district?: string | null
+          full_name?: string | null
+          id: string
+          irrigation?: Database["public"]["Enums"]["irrigation_type"] | null
+          land_size_acres?: number | null
+          land_type?: Database["public"]["Enums"]["land_type"] | null
+          language?: string
+          latitude?: number | null
+          longitude?: number | null
+          phone?: string | null
+          state?: string | null
+          updated_at?: string
+          village?: string | null
+        }
+        Update: {
+          created_at?: string
+          district?: string | null
+          full_name?: string | null
+          id?: string
+          irrigation?: Database["public"]["Enums"]["irrigation_type"] | null
+          land_size_acres?: number | null
+          land_type?: Database["public"]["Enums"]["land_type"] | null
+          language?: string
+          latitude?: number | null
+          longitude?: number | null
+          phone?: string | null
+          state?: string | null
+          updated_at?: string
+          village?: string | null
+        }
+        Relationships: []
+      }
+      soil_reports: {
+        Row: {
+          created_at: string
+          id: string
+          nitrogen: number | null
+          notes: string | null
+          organic_carbon: number | null
+          ph: number | null
+          phosphorus: number | null
+          potassium: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          nitrogen?: number | null
+          notes?: string | null
+          organic_carbon?: number | null
+          ph?: number | null
+          phosphorus?: number | null
+          potassium?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          nitrogen?: number | null
+          notes?: string | null
+          organic_carbon?: number | null
+          ph?: number | null
+          phosphorus?: number | null
+          potassium?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "officer" | "farmer"
+      irrigation_type: "borewell" | "canal" | "rainfed" | "drip" | "sprinkler"
+      land_type: "dry" | "wet" | "garden"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +352,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "officer", "farmer"],
+      irrigation_type: ["borewell", "canal", "rainfed", "drip", "sprinkler"],
+      land_type: ["dry", "wet", "garden"],
+    },
   },
 } as const
