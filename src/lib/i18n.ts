@@ -46,7 +46,7 @@ const resources = {
         min: "Min", max: "Max", modal: "Modal", noneYet: "No commodities tracked yet.",
       },
       chat: { title: "Advisor", placeholder: "Ask about crops, pests, weather…", send: "Send", listening: "Listening…" },
-      common: { back: "Back", cancel: "Cancel", loading: "Loading…", error: "Something went wrong.", tryAgain: "Try again", listen: "Listen", speak: "Speak" },
+      common: { back: "Back", cancel: "Cancel", loading: "Loading…", error: "Something went wrong.", tryAgain: "Try again", listen: "Listen", speak: "Speak", or: "or" },
     },
   },
   hi: {
@@ -90,7 +90,7 @@ const resources = {
         min: "न्यून", max: "अधि", modal: "औसत", noneYet: "अभी कोई फसल नहीं।",
       },
       chat: { title: "सलाहकार", placeholder: "फसल, कीट, मौसम पूछें…", send: "भेजें", listening: "सुन रहा हूँ…" },
-      common: { back: "वापस", cancel: "रद्द", loading: "लोड हो रहा है…", error: "कुछ गड़बड़ हुई।", tryAgain: "पुनः प्रयास", listen: "सुनें", speak: "बोलें" },
+      common: { back: "वापस", cancel: "रद्द", loading: "लोड हो रहा है…", error: "कुछ गड़बड़ हुई।", tryAgain: "पुनः प्रयास", listen: "सुनें", speak: "बोलें", or: "या" },
     },
   },
   ta: {
@@ -134,7 +134,7 @@ const resources = {
         min: "குறை", max: "அதி", modal: "சராசரி", noneYet: "இதுவரை எந்த பயிரும் இல்லை.",
       },
       chat: { title: "ஆலோசகர்", placeholder: "பயிர், பூச்சி, வானிலை கேளுங்கள்…", send: "அனுப்பு", listening: "கேட்கிறேன்…" },
-      common: { back: "பின்", cancel: "ரத்து", loading: "ஏற்றுகிறது…", error: "ஏதோ தவறு.", tryAgain: "மீண்டும் முயற்சி", listen: "கேளு", speak: "பேசு" },
+      common: { back: "பின்", cancel: "ரத்து", loading: "ஏற்றுகிறது…", error: "ஏதோ தவறு.", tryAgain: "மீண்டும் முயற்சி", listen: "கேளு", speak: "பேசு", or: "அல்லது" },
     },
   },
 };
