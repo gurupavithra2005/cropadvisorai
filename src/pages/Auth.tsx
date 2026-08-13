@@ -133,6 +133,32 @@ export default function Auth() {
             </Button>
           </form>
 
+          <div className="relative my-4">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase">
+              <span className="bg-card px-2 text-muted-foreground">{t("common.or") || "or"}</span>
+            </div>
+          </div>
+
+          <Button
+            type="button"
+            variant="outline"
+            onClick={signInWithGoogle}
+            disabled={googleLoading}
+            className="w-full btn-tap h-12"
+          >
+            {googleLoading ? (
+              <Loader2 className="animate-spin" />
+            ) : (
+              <>
+                <GoogleIcon />
+                <span>{t("auth.google")}</span>
+              </>
+            )}
+          </Button>
+
           <button onClick={() => setMode(mode === "in" ? "up" : "in")}
             className="w-full mt-4 text-sm text-primary underline">
             {mode === "in" ? t("auth.noAccount") : t("auth.haveAccount")}
