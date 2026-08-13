@@ -65,6 +65,23 @@ export default function Auth() {
     }
   };
 
+  const signInWithGoogle = async () => {
+    setGoogleLoading(true);
+    try {
+      const result = await lovable.auth.signInWithOAuth("google", {
+        redirect_uri: window.location.origin,
+      });
+      if (result.error) throw result.error;
+      if (result.redirected) return;
+      toast.success(t("auth.welcome"));
+    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      toast.error((err as any)?.message || t("common.error"));
+    } finally {
+      setGoogleLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <div className="gradient-earth text-primary-foreground px-6 pt-12 pb-16 rounded-b-[2rem]">
