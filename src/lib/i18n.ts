@@ -46,7 +46,7 @@ const resources = {
         min: "Min", max: "Max", modal: "Modal", noneYet: "No commodities tracked yet.",
       },
       chat: { title: "Advisor", placeholder: "Ask about crops, pests, weather…", send: "Send", listening: "Listening…" },
-      common: { back: "Back", cancel: "Cancel", loading: "Loading…", error: "Something went wrong.", tryAgain: "Try again", listen: "Listen", speak: "Speak" },
+      common: { back: "Back", cancel: "Cancel", loading: "Loading…", error: "Something went wrong.", tryAgain: "Try again", listen: "Listen", speak: "Speak", or: "or" },
     },
   },
   hi: {
