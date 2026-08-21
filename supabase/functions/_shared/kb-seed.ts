@@ -1,6 +1,6 @@
 // Open agricultural knowledge chunks (ICAR / KVK / TNAU style extension advice).
 // These are embedded once and retrieved by the RAG advisor.
-export type KbDoc = { title: string; topic: string; content: string; source: string };
+export type KbDoc = { title: string; topic?: string; content: string; source?: string; lang?: string };
 
 export const KB_SEED: KbDoc[] = [
   {
