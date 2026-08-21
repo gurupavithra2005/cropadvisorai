@@ -41,6 +41,39 @@ export type Database = {
         }
         Relationships: []
       }
+      kb_docs: {
+        Row: {
+          content: string
+          created_at: string
+          embedding: string | null
+          id: string
+          lang: string
+          source: string | null
+          title: string
+          topic: string | null
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          lang?: string
+          source?: string | null
+          title: string
+          topic?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          embedding?: string | null
+          id?: string
+          lang?: string
+          source?: string | null
+          title?: string
+          topic?: string | null
+        }
+        Relationships: []
+      }
       market_watchlist: {
         Row: {
           commodity: string
@@ -220,6 +253,16 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      match_kb_docs: {
+        Args: { match_count?: number; query_embedding: string }
+        Returns: {
+          content: string
+          id: string
+          similarity: number
+          title: string
+          topic: string
+        }[]
       }
     }
     Enums: {
