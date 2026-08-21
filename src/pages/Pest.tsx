@@ -14,14 +14,24 @@ type Scan = {
   created_at: string;
 };
 
-async function fileToDataUrl(file: File) {
-  return new Promise<string>((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(r.result as string);
-    r.onerror = reject;
-    r.readAsDataURL(file);
-  });
+// Phone photos are 3-8 MB. Downscaling to 1024 px JPEG cuts the base64 payload
+// (and therefore upload + model latency) by ~10x with no diagnostic loss.
+async function compressImage(file: File, maxSide = 1024, quality = 0.72) {
+  const bitmap = await createImageBitmap(file);
+  const scale = Math.min(1, maxSide / Math.max(bitmap.width, bitmap.height));
+  const w = Math.round(bitmap.width * scale);
+  const h = Math.round(bitmap.height * scale);
+  const canvas = document.createElement("canvas");
+  canvas.width = w; canvas.height = h;
+  canvas.getContext("2d")!.drawImage(bitmap, 0, 0, w, h);
+  bitmap.close?.();
+  const dataUrl = canvas.toDataURL("image/jpeg", quality);
+  const blob: Blob = await new Promise((res) =>
+    canvas.toBlob((b) => res(b as Blob), "image/jpeg", quality)
+  );
+  return { dataUrl, blob };
 }
+
 
 export default function Pest() {
   const { t, i18n } = useTranslation();
@@ -44,22 +54,32 @@ export default function Pest() {
     if (!user) return;
     setBusy(true);
     try {
-      const dataUrl = await fileToDataUrl(file);
+      const { dataUrl, blob } = await compressImage(file);
       setCurrent({ img: dataUrl });
 
-      // Upload to storage
-      const path = `${user.id}/${Date.now()}-${file.name}`;
-      const { error: upErr } = await supabase.storage.from("pest-scans").upload(path, file, { contentType: file.type });
-      if (upErr) throw upErr;
-      const { data: signed } = await supabase.storage.from("pest-scans").createSignedUrl(path, 60 * 60 * 24 * 30);
+      const path = `${user.id}/${Date.now()}.jpg`;
 
-      const { data, error } = await supabase.functions.invoke("pest-detect", {
+      // Run the AI diagnosis and the storage upload in parallel so the farmer
+      // sees the result as soon as the model answers.
+      const aiPromise = supabase.functions.invoke("pest-detect", {
         body: { imageBase64: dataUrl, language: i18n.language },
       });
+      const uploadPromise = (async () => {
+        const { error: upErr } = await supabase.storage
+          .from("pest-scans").upload(path, blob, { contentType: "image/jpeg" });
+        if (upErr) return null;
+        const { data: signed } = await supabase.storage
+          .from("pest-scans").createSignedUrl(path, 60 * 60 * 24 * 30);
+        return signed?.signedUrl ?? null;
+      })();
+
+      const [{ data, error }, signedUrl] = await Promise.all([aiPromise, uploadPromise]);
       if (error) throw error;
 
+      setCurrent({ img: dataUrl, ...(data as Partial<Scan>) });
+
       const rec = {
-        user_id: user.id, image_url: signed?.signedUrl || null,
+        user_id: user.id, image_url: signedUrl,
         crop: data.crop || null, diagnosis: data.diagnosis || null,
         severity: data.severity || null, treatment: data.treatment || null,
         raw_response: data,
@@ -74,6 +94,7 @@ export default function Pest() {
       setBusy(false);
     }
   };
+
 
   return (
     <div className="space-y-4">
